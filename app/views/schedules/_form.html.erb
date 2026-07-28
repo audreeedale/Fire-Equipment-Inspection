@@ -1,0 +1,13 @@
+<%= simple_form_for schedule, url: (schedule.persisted? ? schedule_path(schedule) : address_schedules_path(address)), html: { class: "bg-panel border border-line rounded-xl p-6 max-w-xl space-y-4" } do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :equipment_category, collection: Schedule.equipment_categories.keys, include_blank: "Whole site", label: "Equipment category" %>
+  <%= f.input :building_id, collection: address.buildings, label_method: :name, value_method: :id, include_blank: "Whole site (no specific building)" %>
+  <%= f.input :frequency, collection: Schedule.frequencies.keys %>
+  <%= f.input :start_date, as: :date %>
+  <%= f.input :grace_period_days, label: "Due-soon window (days before next due date)" %>
+  <%= f.input :description, as: :text %>
+  <%= f.input :active %>
+
+  <%= f.button :submit, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+<% end %>

@@ -1,0 +1,26 @@
+<%= simple_form_for asset, url: (asset.persisted? ? asset_path(asset) : address_assets_path(address)), html: { class: "bg-panel border border-line rounded-xl p-6 max-w-xl space-y-4", data: { controller: "asset-category-fields" } } do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :asset_no, label: "Asset no." %>
+  <%= f.input :category, collection: Asset.categories.keys, input_html: { data: { "asset-category-fields-target": "categorySelect", action: "change->asset-category-fields#toggle" } } %>
+  <%= f.input :building_id, collection: address.buildings, label_method: :name, value_method: :id, include_blank: "None" %>
+  <%= f.input :level %>
+  <%= f.input :area %>
+
+  <div data-asset-category-fields-target="field" data-categories="fire_extinguisher hydrant fire_hose_reel">
+    <%= f.input :size_and_type, label: "Size and type" %>
+  </div>
+
+  <div data-asset-category-fields-target="field" data-categories="exit_light fire_door smoke_alarm">
+    <%= f.input :type_code, label: "Type (EMG / EX / FD / SA)" %>
+  </div>
+
+  <div data-asset-category-fields-target="field" data-categories="exit_light">
+    <%= f.input :brand %>
+    <%= f.input :length %>
+  </div>
+
+  <%= f.input :active %>
+
+  <%= f.button :submit, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+<% end %>

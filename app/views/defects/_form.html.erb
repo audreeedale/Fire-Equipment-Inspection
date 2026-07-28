@@ -1,0 +1,16 @@
+<%= simple_form_for defect, url: (defect.persisted? ? defect_path(defect) : defects_path), html: { class: "bg-panel rounded-xl shadow p-6 max-w-xl space-y-4" } do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :asset_id, collection: Asset.includes(:address).order(:asset_no),
+        label_method: ->(asset) { "#{asset.address.display_name} — #{asset.asset_no}" }, value_method: :id,
+        label: "Asset" %>
+  <%= f.input :asset_inspection_record_id, as: :hidden %>
+  <%= f.input :description, as: :text %>
+  <%= f.input :priority, collection: Defect.priorities.keys %>
+  <%= f.input :status, collection: Defect.statuses.keys %>
+  <%= f.input :assigned_to, label: "Assigned to" %>
+  <%= f.input :quote_reference %>
+  <%= f.input :scheduled_on, as: :date %>
+
+  <%= f.button :submit, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+<% end %>

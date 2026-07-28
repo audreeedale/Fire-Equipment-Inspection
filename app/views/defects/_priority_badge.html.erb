@@ -1,0 +1,6 @@
+<% color = {
+  high: "text-danger",
+  medium: "text-warning",
+  low: "text-muted"
+}.fetch(priority.to_sym) %>
+<span class="text-[10px] uppercase tracking-wide font-bold <%= color %>"><%= priority %></span>

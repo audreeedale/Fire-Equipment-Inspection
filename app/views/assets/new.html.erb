@@ -1,0 +1,4 @@
+<% content_for :title, "New Asset" %>
+
+<h1 class="text-2xl font-bold mb-6">New Asset — <%= @address.display_name %></h1>
+<%= render "form", asset: @asset, address: @address %>

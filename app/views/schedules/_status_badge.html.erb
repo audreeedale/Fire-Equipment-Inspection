@@ -1,0 +1,8 @@
+<% color = {
+  overdue: "bg-danger-soft text-danger",
+  due_soon: "bg-warning-soft text-warning",
+  upcoming: "bg-success-soft text-success",
+  inactive: "bg-panel-soft text-muted",
+  no_schedule: "bg-panel-soft text-muted"
+}.fetch(status) %>
+<span class="inline-block px-2 py-1 rounded-full text-xs font-medium <%= color %>"><%= status.to_s.humanize %></span>

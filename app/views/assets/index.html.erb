@@ -1,0 +1,48 @@
+<% content_for :title, "Assets" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Assets — <%= @address.display_name %></h1>
+  <%= link_to "New Asset", new_address_asset_path(@address), class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+</div>
+
+<div class="mb-4 flex gap-2 text-sm">
+  <%= link_to "All", address_assets_path(@address), class: "px-3 py-1 rounded #{params[:category].blank? ? 'bg-nav text-white' : 'bg-panel border border-line'}" %>
+  <% Asset.categories.each_key do |category| %>
+    <%= link_to category.humanize, address_assets_path(@address, category: category), class: "px-3 py-1 rounded #{params[:category] == category ? 'bg-nav text-white' : 'bg-panel border border-line'}" %>
+  <% end %>
+</div>
+
+<div class="bg-panel border border-line rounded-xl overflow-x-auto">
+  <table class="min-w-full text-sm">
+    <thead class="bg-panel-soft text-left text-muted">
+      <tr>
+        <th class="px-4 py-2">Asset no.</th>
+        <th class="px-4 py-2">Category</th>
+        <th class="px-4 py-2">Building</th>
+        <th class="px-4 py-2">Level</th>
+        <th class="px-4 py-2">Details</th>
+        <th class="px-4 py-2"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-line">
+      <% @assets.each do |asset| %>
+        <tr>
+          <td class="px-4 py-2 font-medium"><%= asset.asset_no %></td>
+          <td class="px-4 py-2"><%= asset.category.humanize %></td>
+          <td class="px-4 py-2"><%= asset.building&.name %></td>
+          <td class="px-4 py-2"><%= asset.level %></td>
+          <td class="px-4 py-2 text-muted">
+            <%= [asset.area, asset.size_and_type, asset.type_code, asset.brand, asset.length].compact_blank.join(" · ") %>
+          </td>
+          <td class="px-4 py-2 text-right">
+            <%= link_to "Edit", edit_asset_path(asset), class: "text-xs text-muted hover:underline mr-3" %>
+            <%= link_to "Delete", asset_path(asset), data: { turbo_method: :delete, turbo_confirm: "Remove this asset?" }, class: "text-xs text-danger hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @assets.empty? %>
+        <tr><td colspan="6" class="px-4 py-6 text-center text-muted">No assets in this category yet.</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

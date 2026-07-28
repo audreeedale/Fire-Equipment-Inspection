@@ -1,0 +1,7 @@
+<% color = {
+  logged: "bg-panel-soft text-muted",
+  quoted: "bg-info-soft text-info",
+  scheduled: "bg-warning-soft text-warning",
+  resolved: "bg-success-soft text-success"
+}.fetch(status.to_sym) %>
+<span class="inline-block px-2 py-1 rounded-full text-xs font-medium <%= color %>"><%= status.to_s.humanize %></span>

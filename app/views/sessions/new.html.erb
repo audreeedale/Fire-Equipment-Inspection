@@ -1,0 +1,33 @@
+<% content_for :title, "Log in" %>
+
+<div class="w-full max-w-4xl grid md:grid-cols-2 rounded-2xl overflow-hidden shadow-lg">
+  <div class="hidden md:flex flex-col justify-between p-10 text-white bg-nav">
+    <div class="flex items-center gap-2 font-bold">
+      <span class="w-9 h-9 rounded-xl bg-brand grid place-items-center">🔥</span>
+      Fire Inspection
+    </div>
+    <div>
+      <h1 class="text-3xl font-bold leading-tight mb-3">Fire compliance, organised by property.</h1>
+      <p class="text-white/70">Manage customers, recurring asset inspections, defects and compliance history in one place.</p>
+    </div>
+    <p class="text-xs text-white/40">Sample data only.</p>
+  </div>
+
+  <div class="bg-panel p-10">
+    <p class="text-brand text-xs font-extrabold uppercase tracking-wide mb-2">Operations portal</p>
+    <h2 class="text-2xl font-bold mb-1">Welcome back</h2>
+    <p class="text-muted mb-6">Log in to manage inspections and customer assets.</p>
+
+    <%= form_with url: login_path, method: :post, class: "space-y-4" do |f| %>
+      <div>
+        <label class="block text-xs font-bold mb-1" for="email">Email address</label>
+        <%= f.email_field :email, id: "email", required: true, class: "w-full h-11 px-3 rounded-lg border border-line focus:outline-none focus:ring-2 focus:ring-brand" %>
+      </div>
+      <div>
+        <label class="block text-xs font-bold mb-1" for="password">Password</label>
+        <%= f.password_field :password, id: "password", required: true, class: "w-full h-11 px-3 rounded-lg border border-line focus:outline-none focus:ring-2 focus:ring-brand" %>
+      </div>
+      <%= f.submit "Log in", class: "w-full h-11 rounded-lg bg-brand text-white font-bold hover:bg-brand-dark cursor-pointer" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Fire Inspection" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Fire Inspection">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-bg text-ink">
+    <% if current_user %>
+      <% nav_items = [
+        ["Home", root_path, %w[dashboard]],
+        ["Customers", addresses_path, %w[addresses buildings schedules assets]],
+        ["Inspections", inspections_path, %w[inspections inspection_visits asset_inspection_records]],
+        ["Calendar", calendar_path, %w[calendar]],
+        ["Reports", reports_path, %w[reports]],
+        ["Defects", defects_path, %w[defects]],
+        ["Settings", settings_path, %w[settings]]
+      ] %>
+
+      <div class="min-h-screen md:grid md:grid-cols-[245px_1fr]" data-controller="sidebar">
+        <aside data-sidebar-target="panel" class="fixed inset-y-0 left-0 z-40 w-[245px] -translate-x-full bg-nav text-white p-4 flex flex-col transition-transform md:static md:translate-x-0">
+          <div class="flex items-center gap-2 px-2 pb-5 font-bold">
+            <span class="w-9 h-9 rounded-xl bg-brand grid place-items-center">🔥</span>
+            Fire Inspection
+          </div>
+
+          <nav class="space-y-1">
+            <% nav_items.each do |label, path, controllers| %>
+              <%= link_to label, path, class: "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold #{controllers.include?(controller_name) ? 'bg-brand text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}" %>
+            <% end %>
+          </nav>
+
+          <div class="mt-auto pt-4 border-t border-white/10 flex items-center gap-2 px-2">
+            <div class="w-8 h-8 rounded-full bg-warning grid place-items-center text-xs font-bold text-nav">
+              <%= current_user.name.first(2).upcase %>
+            </div>
+            <div class="min-w-0">
+              <strong class="block text-xs truncate"><%= current_user.name %></strong>
+              <%= button_to "Log out", logout_path, method: :delete, class: "text-[11px] text-white/50 hover:text-white p-0 bg-transparent border-0 cursor-pointer" %>
+            </div>
+          </div>
+        </aside>
+
+        <div data-sidebar-target="backdrop" data-action="click->sidebar#close" class="fixed inset-0 z-30 hidden bg-black/40 md:hidden"></div>
+
+        <div class="min-w-0">
+          <header class="sticky top-0 z-10 h-[62px] bg-panel/95 backdrop-blur border-b border-line flex items-center gap-4 px-5">
+            <button data-action="sidebar#toggle" class="md:hidden text-xl" aria-label="Open menu">☰</button>
+            <div class="text-sm font-semibold text-muted"><%= content_for(:title) %></div>
+          </header>
+
+          <main class="p-6 max-w-[1400px] mx-auto">
+            <% if notice %>
+              <p class="mb-4 rounded-lg bg-success-soft text-success px-4 py-2 text-sm"><%= notice %></p>
+            <% end %>
+            <% if alert %>
+              <p class="mb-4 rounded-lg bg-danger-soft text-danger px-4 py-2 text-sm"><%= alert %></p>
+            <% end %>
+            <%= yield %>
+          </main>
+        </div>
+      </div>
+    <% else %>
+      <main class="min-h-screen grid place-items-center p-6">
+        <% if notice %>
+          <p class="mb-4 rounded-lg bg-success-soft text-success px-4 py-2 text-sm"><%= notice %></p>
+        <% end %>
+        <% if alert %>
+          <p class="mb-4 rounded-lg bg-danger-soft text-danger px-4 py-2 text-sm"><%= alert %></p>
+        <% end %>
+        <%= yield %>
+      </main>
+    <% end %>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<% content_for :title, "Home" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-2xl font-bold">Good day, <%= current_user.name.split.first %></h1>
+    <p class="text-muted">Here's the current inspection workload and compliance status.</p>
+  </div>
+  <%= link_to "+ Add customer", new_address_path, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+</div>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <span class="text-xs text-muted">Inspections this month</span>
+    <div class="text-3xl font-extrabold mt-2"><%= @inspections_this_month_count %></div>
+  </div>
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <span class="text-xs text-muted">Schedules due soon</span>
+    <div class="text-3xl font-extrabold mt-2"><%= @due_soon_count %></div>
+  </div>
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <span class="text-xs text-muted">Open defects</span>
+    <div class="text-3xl font-extrabold mt-2"><%= @open_defects_count %></div>
+  </div>
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <span class="text-xs text-muted">Compliance rate</span>
+    <div class="text-3xl font-extrabold mt-2"><%= @compliance_rate %>%</div>
+  </div>
+</div>
+
+<div class="grid lg:grid-cols-3 gap-4">
+  <div class="lg:col-span-2 space-y-4">
+    <div class="bg-panel border border-line rounded-xl">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-line">
+        <h2 class="font-semibold">Today's schedule</h2>
+        <%= link_to "View calendar", calendar_path, class: "text-sm text-brand hover:underline" %>
+      </div>
+      <div class="p-5 space-y-2">
+        <% @todays_visits.each do |visit| %>
+          <div class="flex items-center justify-between bg-panel-soft rounded-lg px-3 py-2">
+            <div>
+              <strong class="block text-sm"><%= visit.address.display_name %></strong>
+              <span class="text-xs text-muted"><%= visit.inspector_name.presence || "Unassigned" %></span>
+            </div>
+            <%= link_to "View", address_inspection_visit_path(visit.address, visit), class: "text-xs text-brand hover:underline" %>
+          </div>
+        <% end %>
+        <% if @todays_visits.empty? %>
+          <p class="text-sm text-muted">No visits scheduled today.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="bg-panel border border-line rounded-xl">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-line">
+        <h2 class="font-semibold">Recently updated customers</h2>
+        <%= link_to "View all", addresses_path, class: "text-sm text-brand hover:underline" %>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="text-left text-muted">
+            <tr>
+              <th class="px-5 py-2">Customer</th>
+              <th class="px-5 py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-line">
+            <% @recent_addresses.each do |address| %>
+              <tr>
+                <td class="px-5 py-2"><%= link_to address.display_name, address_path(address), class: "text-brand hover:underline" %></td>
+                <td class="px-5 py-2"><%= render "schedules/status_badge", status: address.overall_status %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-panel border border-line rounded-xl">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-line">
+      <h2 class="font-semibold">Priority defects</h2>
+      <%= link_to "Open board", defects_path, class: "text-sm text-brand hover:underline" %>
+    </div>
+    <div class="p-5 space-y-3">
+      <% @priority_defects.each do |defect| %>
+        <div class="border border-line rounded-lg p-3">
+          <strong class="block text-sm mb-1"><%= truncate(defect.description, length: 60) %></strong>
+          <p class="text-xs text-muted mb-2"><%= defect.address.display_name %> · <%= defect.asset.asset_no %></p>
+          <%= render "defects/priority_badge", priority: defect.priority %>
+        </div>
+      <% end %>
+      <% if @priority_defects.empty? %>
+        <p class="text-sm text-muted">No open defects.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

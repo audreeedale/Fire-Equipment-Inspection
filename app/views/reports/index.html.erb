@@ -1,0 +1,53 @@
+<% content_for :title, "Reports" %>
+
+<div class="mb-6">
+  <h1 class="text-2xl font-bold">Reports</h1>
+  <p class="text-muted">Compliance documents and operational performance.</p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <h3 class="font-semibold mb-1">Service report</h3>
+    <p class="text-sm text-muted mb-3">Asset outcomes and defects for a single inspection visit.</p>
+    <%= link_to "Open inspections →", inspections_path, class: "text-sm text-brand font-semibold hover:underline" %>
+  </div>
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <h3 class="font-semibold mb-1">Customer compliance summary</h3>
+    <p class="text-sm text-muted mb-3">Schedule status across every customer.</p>
+    <%= link_to "View summary →", reports_compliance_path, class: "text-sm text-brand font-semibold hover:underline" %>
+  </div>
+  <div class="bg-panel border border-line rounded-xl p-4">
+    <h3 class="font-semibold mb-1">Defect register</h3>
+    <p class="text-sm text-muted mb-3">Open, quoted and resolved defects.</p>
+    <%= link_to "View register →", reports_defect_register_path, class: "text-sm text-brand font-semibold hover:underline" %>
+  </div>
+</div>
+
+<div class="grid md:grid-cols-3 gap-4">
+  <div class="md:col-span-2 bg-panel border border-line rounded-xl p-5">
+    <h2 class="font-semibold mb-4">Inspections completed <span class="text-muted font-normal">— last 6 months</span></h2>
+    <% max = [@visits_per_month.max, 1].max %>
+    <div class="flex items-end gap-4 h-52 border-b border-line pt-4">
+      <% @months.each_with_index do |month, i| %>
+        <div class="flex-1 h-full flex flex-col justify-end items-center gap-2">
+          <div class="w-full max-w-[42px] rounded-t-lg bg-brand" style="height: <%= (@visits_per_month[i].to_f / max * 100).round %>%"></div>
+          <span class="text-[10px] text-muted"><%= month.strftime("%b") %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-panel border border-line rounded-xl p-5">
+    <h2 class="font-semibold mb-4">Operational snapshot</h2>
+    <div class="space-y-4">
+      <div>
+        <div class="flex justify-between text-sm mb-1"><span class="text-muted">Visits completed</span><strong><%= @completion_rate %>%</strong></div>
+        <div class="h-1.5 rounded-full bg-panel-soft"><div class="h-full rounded-full bg-brand" style="width: <%= @completion_rate %>%"></div></div>
+      </div>
+      <div>
+        <div class="flex justify-between text-sm mb-1"><span class="text-muted">Defects rectified</span><strong><%= @defect_resolution_rate %>%</strong></div>
+        <div class="h-1.5 rounded-full bg-panel-soft"><div class="h-full rounded-full bg-success" style="width: <%= @defect_resolution_rate %>%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>

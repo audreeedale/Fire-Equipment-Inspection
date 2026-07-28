@@ -1,0 +1,28 @@
+<% content_for :title, "Visit — #{@visit.visit_date.to_fs(:long)}" %>
+
+<div class="flex items-start justify-between mb-6">
+  <div>
+    <h1 class="text-2xl font-bold">Visit — <%= @visit.visit_date.to_fs(:long) %></h1>
+    <p class="text-muted"><%= @address.display_name %></p>
+    <p class="text-sm text-muted mt-1">Inspector: <%= @visit.inspector_name.presence || "—" %> · Status: <%= @visit.status.humanize %></p>
+  </div>
+  <%= link_to "Open Equipment Sheet", sheet_address_inspection_visit_path(@address, @visit), class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+</div>
+
+<% if @visit.summary_notes.present? %>
+  <div class="bg-panel border border-line rounded-xl p-5 mb-6">
+    <h2 class="font-semibold mb-2">Summary Notes</h2>
+    <p class="text-sm text-ink"><%= @visit.summary_notes %></p>
+  </div>
+<% end %>
+
+<% if @visit.schedules.any? %>
+  <div class="bg-panel border border-line rounded-xl p-5">
+    <h2 class="font-semibold mb-2">Schedules Fulfilled</h2>
+    <ul class="text-sm text-ink space-y-1">
+      <% @visit.schedules.each do |schedule| %>
+        <li><%= schedule.equipment_category&.humanize || "Whole site" %> — <%= schedule.frequency.humanize %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

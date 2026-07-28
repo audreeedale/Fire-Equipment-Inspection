@@ -1,0 +1,78 @@
+<% content_for :title, "Customers" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-2xl font-bold">Customers</h1>
+    <p class="text-muted">Each customer record is organised by service address.</p>
+  </div>
+  <%= link_to "+ Add customer", new_address_path, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+</div>
+
+<div data-controller="view-toggle search-filter">
+  <div class="flex flex-wrap items-center gap-2 mb-4">
+    <input type="text" placeholder="Search address, contact or suburb" data-search-filter-target="input" data-action="input->search-filter#filter"
+      class="h-10 min-w-[280px] flex-1 max-w-sm px-3 rounded-lg border border-line bg-panel focus:outline-none focus:ring-2 focus:ring-brand">
+    <button data-action="view-toggle#toggle" data-view-toggle-target="label" class="ml-auto h-10 px-4 rounded-lg border border-line bg-panel text-sm font-semibold hover:bg-panel-soft">Card view</button>
+  </div>
+
+  <div data-view-toggle-target="cards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% @addresses.each do |address| %>
+      <article data-search-filter-target="item" data-search="<%= [address.display_name, address.suburb, address.contact_name].compact.join(" ").downcase %>"
+        class="bg-panel border border-line rounded-xl overflow-hidden">
+        <div class="p-4">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-semibold"><%= address.display_name %></h3>
+            <%= render "schedules/status_badge", status: address.overall_status %>
+          </div>
+          <p class="text-xs text-muted mb-4"><%= address.contact_name %></p>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-panel-soft rounded-lg py-2">
+              <strong class="block text-sm"><%= address.assets.size %></strong>
+              <span class="text-[10px] text-muted">Assets</span>
+            </div>
+            <div class="bg-panel-soft rounded-lg py-2">
+              <strong class="block text-sm"><%= address.schedules.count(&:active?) %></strong>
+              <span class="text-[10px] text-muted">Schedules</span>
+            </div>
+            <div class="bg-panel-soft rounded-lg py-2">
+              <strong class="block text-sm"><%= @open_defect_counts[address.id] || 0 %></strong>
+              <span class="text-[10px] text-muted">Defects</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between px-4 py-3 border-t border-line">
+          <%= link_to "Open record →", address_path(address), class: "text-sm text-brand font-semibold hover:underline" %>
+          <%= link_to "Edit", edit_address_path(address), class: "text-xs text-muted hover:underline" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+
+  <div data-view-toggle-target="table" class="hidden bg-panel border border-line rounded-xl overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead class="bg-panel-soft text-left text-muted">
+        <tr>
+          <th class="px-4 py-2">Address</th>
+          <th class="px-4 py-2">Suburb</th>
+          <th class="px-4 py-2">Postcode</th>
+          <th class="px-4 py-2">Contact</th>
+          <th class="px-4 py-2"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-line">
+        <% @addresses.each do |address| %>
+          <tr data-search-filter-target="item" data-search="<%= [address.display_name, address.suburb, address.contact_name].compact.join(" ").downcase %>">
+            <td class="px-4 py-2"><%= link_to address.display_name, address_path(address), class: "text-brand hover:underline" %></td>
+            <td class="px-4 py-2"><%= address.suburb %></td>
+            <td class="px-4 py-2"><%= address.postcode %></td>
+            <td class="px-4 py-2"><%= address.contact_name %></td>
+            <td class="px-4 py-2 text-right">
+              <%= link_to "Edit", edit_address_path(address), class: "text-sm text-muted hover:underline mr-3" %>
+              <%= link_to "Delete", address_path(address), data: { turbo_method: :delete, turbo_confirm: "Remove this address?" }, class: "text-sm text-danger hover:underline" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

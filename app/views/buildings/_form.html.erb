@@ -1,0 +1,5 @@
+<%= simple_form_for building, url: (building.persisted? ? building_path(building) : address_buildings_path(address)), html: { class: "bg-panel border border-line rounded-xl p-6 max-w-md space-y-4" } do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :name %>
+  <%= f.button :submit, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+<% end %>

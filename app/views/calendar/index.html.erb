@@ -1,0 +1,38 @@
+<% content_for :title, "Calendar" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-2xl font-bold">Inspection Calendar</h1>
+    <p class="text-muted">Monthly schedule across all customers.</p>
+  </div>
+  <div class="flex items-center gap-2 text-sm">
+    <%= link_to "‹", calendar_path(month: (@month - 1.month).strftime("%Y-%m")), class: "w-9 h-9 grid place-items-center rounded-lg border border-line bg-panel hover:bg-panel-soft" %>
+    <span class="font-semibold px-2"><%= @month.strftime("%B %Y") %></span>
+    <%= link_to "›", calendar_path(month: (@month + 1.month).strftime("%Y-%m")), class: "w-9 h-9 grid place-items-center rounded-lg border border-line bg-panel hover:bg-panel-soft" %>
+  </div>
+</div>
+
+<div class="bg-panel border border-line rounded-xl overflow-hidden">
+  <div class="grid grid-cols-7 bg-panel-soft border-b border-line text-[11px] font-extrabold uppercase text-muted">
+    <% %w[Mon Tue Wed Thu Fri Sat Sun].each do |day| %>
+      <div class="p-2 text-center"><%= day %></div>
+    <% end %>
+  </div>
+
+  <% @weeks.each do |week| %>
+    <div class="grid grid-cols-7 border-b border-line last:border-b-0">
+      <% week.each do |day| %>
+        <div class="min-h-[110px] p-2 border-r border-line last:border-r-0 <%= "bg-panel-soft text-muted/60" unless day.month == @month.month %> <%= "ring-2 ring-inset ring-brand" if day == Date.current %>">
+          <span class="text-xs font-bold"><%= day.day %></span>
+          <div class="mt-1 space-y-1">
+            <% (@visits_by_day[day] || []).each do |visit| %>
+              <%= link_to address_inspection_visit_path(visit.address, visit), class: "block rounded border-l-2 border-brand bg-brand-soft px-1.5 py-1 text-[10px] leading-tight hover:opacity-80" do %>
+                <%= visit.address.display_name %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

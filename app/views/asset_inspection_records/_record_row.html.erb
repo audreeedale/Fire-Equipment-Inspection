@@ -1,0 +1,36 @@
+<%= turbo_frame_tag record do %>
+  <div class="p-4">
+    <div class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted mb-2">
+      <span class="font-medium text-ink"><%= record.asset.asset_no %></span>
+      <span>Building: <%= record.asset.building&.name || "—" %></span>
+      <span>Level: <%= record.asset.level.presence || "—" %></span>
+      <% if record.asset.area.present? %><span>Area: <%= record.asset.area %></span><% end %>
+      <% if record.asset.size_and_type.present? %><span><%= record.asset.size_and_type %></span><% end %>
+      <% if record.asset.type_code.present? %><span>Type: <%= record.asset.type_code %></span><% end %>
+      <% if record.asset.brand.present? %><span><%= record.asset.brand %> <%= record.asset.length %></span><% end %>
+    </div>
+
+    <%= simple_form_for record, url: asset_inspection_record_path(record), method: :patch,
+          html: { class: "grid grid-cols-1 md:grid-cols-4 gap-3 items-start" } do |f| %>
+      <%= f.input :defect_status, collection: AssetInspectionRecord.defect_statuses.keys, label: false, wrapper_html: { class: "md:col-span-1" } %>
+      <%= f.input :defect_found, as: :text, label: false, placeholder: "Defect found", input_html: { rows: 1 }, wrapper_html: { class: "md:col-span-1" } %>
+      <%= f.input :action_required, as: :text, label: false, placeholder: "Action required", input_html: { rows: 1 }, wrapper_html: { class: "md:col-span-1" } %>
+      <div class="md:col-span-1 space-y-2">
+        <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false %>
+        <%= f.button :submit, "Save", class: "bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-brand-dark" %>
+      </div>
+    <% end %>
+
+    <% if record.photos.attached? %>
+      <div class="flex gap-2 mt-3">
+        <% record.photos.each do |photo| %>
+          <%= image_tag photo, class: "h-16 w-16 object-cover rounded border" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% unless record.defect_status_none? %>
+      <%= link_to "Log defect →", new_defect_path(asset_inspection_record_id: record.id), class: "inline-block mt-3 text-xs text-brand font-semibold hover:underline" %>
+    <% end %>
+  </div>
+<% end %>

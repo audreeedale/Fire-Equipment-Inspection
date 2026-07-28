@@ -1,0 +1,19 @@
+<% content_for :title, "Settings" %>
+
+<div class="mb-6">
+  <h1 class="text-2xl font-bold">Settings</h1>
+  <p class="text-muted">Your account details.</p>
+</div>
+
+<div class="bg-panel border border-line rounded-xl p-5 max-w-md">
+  <div class="grid grid-cols-2 gap-4 text-sm">
+    <div>
+      <span class="block text-muted text-xs mb-1">Name</span>
+      <strong><%= current_user.name %></strong>
+    </div>
+    <div>
+      <span class="block text-muted text-xs mb-1">Email</span>
+      <strong><%= current_user.email %></strong>
+    </div>
+  </div>
+</div>
