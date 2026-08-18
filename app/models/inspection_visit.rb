@@ -16,4 +16,15 @@ class InspectionVisit < ApplicationRecord
       asset_inspection_records.find_or_create_by!(asset: asset)
     end
   end
+
+  def complete!(schedule_ids)
+    transaction do
+      update!(status: :completed)
+      Array(schedule_ids).reject(&:blank?).each do |schedule_id|
+        schedule_completions.find_or_create_by!(schedule_id: schedule_id) do |completion|
+          completion.completed_on = visit_date
+        end
+      end
+    end
+  end
 end

@@ -54,3 +54,7 @@ bundle exec rspec
 
 - Authentication / user accounts (inspector name is currently free text)
 - Cloud photo storage (currently local disk via ActiveStorage)
+
+## Logins
+admin@emberinspect.com
+password

@@ -10,7 +10,7 @@ class InspectionVisitsController < ApplicationController
   def create
     @visit = address.inspection_visits.new(visit_params)
     if @visit.save
-      redirect_to sheet_address_inspection_visit_path(address, @visit), notice: "Visit started."
+      redirect_to address_inspection_visit_asset_inspection_records_path(address, @visit), notice: "Visit started."
     else
       render :new, status: :unprocessable_entity
     end
@@ -19,24 +19,6 @@ class InspectionVisitsController < ApplicationController
   def show
     address
     visit
-  end
-
-  def sheet
-    visit.seed_records_for_all_assets!
-    @records_by_category = visit.asset_inspection_records.includes(:asset).group_by { |r| r.asset.category }
-    @schedules = address.schedules.active.order(:next_due_on)
-  end
-
-  def complete
-    ActiveRecord::Base.transaction do
-      visit.update!(status: :completed)
-      Array(params[:schedule_ids]).reject(&:blank?).each do |schedule_id|
-        ScheduleCompletion.find_or_create_by!(schedule_id: schedule_id, inspection_visit: visit) do |completion|
-          completion.completed_on = visit.visit_date
-        end
-      end
-    end
-    redirect_to address_inspection_visit_path(address, visit), notice: "Visit completed."
   end
 
   private

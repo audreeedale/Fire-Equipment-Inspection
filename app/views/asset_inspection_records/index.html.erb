@@ -26,7 +26,7 @@
 <% if @visit.status == "in_progress" %>
   <section class="bg-panel border border-line rounded-xl p-5 mt-8">
     <h2 class="font-semibold mb-3">Complete Visit</h2>
-    <%= form_with url: complete_address_inspection_visit_path(@address, @visit), method: :patch, class: "space-y-3" do %>
+    <%= form_with url: address_inspection_visit_completion_path(@address, @visit), method: :post, class: "space-y-3" do %>
       <% if @schedules.any? %>
         <p class="text-sm text-muted mb-1">Mark which schedules this visit satisfies:</p>
         <div class="space-y-1 mb-3">

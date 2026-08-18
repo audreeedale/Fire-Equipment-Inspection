@@ -6,7 +6,7 @@
     <p class="text-muted"><%= @address.display_name %></p>
     <p class="text-sm text-muted mt-1">Inspector: <%= @visit.inspector_name.presence || "—" %> · Status: <%= @visit.status.humanize %></p>
   </div>
-  <%= link_to "Open Equipment Sheet", sheet_address_inspection_visit_path(@address, @visit), class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
+  <%= link_to "Open Equipment Sheet", address_inspection_visit_asset_inspection_records_path(@address, @visit), class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
 </div>
 
 <% if @visit.summary_notes.present? %>

@@ -37,6 +37,7 @@ class DefectsController < ApplicationController
     end
   end
 
+  # Need to update not RESTful probably separate this
   def advance
     next_status = STATUS_TRANSITIONS.fetch(defect.status, nil)
     if next_status

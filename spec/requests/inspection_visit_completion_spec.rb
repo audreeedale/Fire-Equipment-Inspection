@@ -8,7 +8,7 @@ RSpec.describe "Completing an inspection visit", type: :request do
     schedule = create(:schedule, address: address, frequency: :monthly, start_date: Date.new(2026, 1, 1), next_due_on: Date.new(2026, 2, 1))
     visit = create(:inspection_visit, address: address, visit_date: Date.new(2026, 2, 1))
 
-    patch complete_address_inspection_visit_path(address, visit), params: { schedule_ids: [schedule.id] }
+    post address_inspection_visit_completion_path(address, visit), params: { schedule_ids: [schedule.id] }
 
     expect(response).to redirect_to(address_inspection_visit_path(address, visit))
     expect(visit.reload.status).to eq("completed")

@@ -38,10 +38,8 @@ Rails.application.routes.draw do
     resources :assets, path: "equipment", shallow: true
 
     resources :inspection_visits, only: [:index, :new, :create, :show] do
-      member do
-        get :sheet
-        patch :complete
-      end
+      resources :asset_inspection_records, only: [:index]
+      resource :completion, only: [:create], controller: "inspection_visit_completions"
     end
   end
 
