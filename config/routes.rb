@@ -37,11 +37,11 @@ Rails.application.routes.draw do
     # path: "equipment" avoids colliding with the /assets pipeline mount used for compiled CSS/JS.
     resources :assets, path: "equipment", shallow: true
 
-    resources :inspection_visits, only: [:index, :new, :create, :show] do
-      resources :asset_inspection_records, only: [:index]
-      resource :completion, only: [:create], controller: "inspection_visit_completions"
+    resources :inspection_visits, only: [ :index, :new, :create, :show ] do
+      resources :asset_inspection_records, only: [ :index ]
+      resource :completion, only: [ :create ], controller: "inspection_visit_completions"
     end
   end
 
-  resources :asset_inspection_records, only: [:update]
+  resources :asset_inspection_records, only: [ :update ]
 end

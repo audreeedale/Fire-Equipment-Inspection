@@ -7,6 +7,6 @@ class CreateScheduleCompletions < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :schedule_completions, [:schedule_id, :inspection_visit_id], unique: true, name: "idx_schedule_completions_unique"
+    add_index :schedule_completions, [ :schedule_id, :inspection_visit_id ], unique: true, name: "idx_schedule_completions_unique"
   end
 end

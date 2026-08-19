@@ -43,7 +43,7 @@ nsw_sites.each_with_index do |site, i|
     address.assets.create!(
       building: main_building, asset_no: "EXT-#{i}-#{n}", category: :fire_extinguisher,
       level: "Level #{n % 3 + 1}", area: "Corridor #{n}",
-      details: { size_and_type: ["4.5kg ABE", "9L Water", "2kg CO2"].sample }
+      details: { size_and_type: [ "4.5kg ABE", "9L Water", "2kg CO2" ].sample }
     )
   end
 

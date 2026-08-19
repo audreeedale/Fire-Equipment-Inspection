@@ -12,7 +12,7 @@ class CreateAssets < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :assets, [:address_id, :asset_no], unique: true
+    add_index :assets, [ :address_id, :asset_no ], unique: true
     add_index :assets, :category
     add_index :assets, :details, using: :gin
   end

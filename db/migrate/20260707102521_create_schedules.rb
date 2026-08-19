@@ -15,6 +15,6 @@ class CreateSchedules < ActiveRecord::Migration[8.1]
       t.timestamps
     end
     add_index :schedules, :next_due_on
-    add_index :schedules, [:address_id, :equipment_category]
+    add_index :schedules, [ :address_id, :equipment_category ]
   end
 end

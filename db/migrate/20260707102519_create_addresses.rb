@@ -13,6 +13,6 @@ class CreateAddresses < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :addresses, [:suburb, :postcode]
+    add_index :addresses, [ :suburb, :postcode ]
   end
 end

@@ -9,7 +9,7 @@ class CreateInspectionVisits < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :inspection_visits, [:address_id, :visit_date]
+    add_index :inspection_visits, [ :address_id, :visit_date ]
     add_index :inspection_visits, :visit_date
   end
 end

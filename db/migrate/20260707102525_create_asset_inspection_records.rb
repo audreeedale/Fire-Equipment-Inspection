@@ -9,7 +9,7 @@ class CreateAssetInspectionRecords < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :asset_inspection_records, [:asset_id, :inspection_visit_id], unique: true
+    add_index :asset_inspection_records, [ :asset_id, :inspection_visit_id ], unique: true
     add_index :asset_inspection_records, :defect_status
   end
 end
