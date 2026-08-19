@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Address, type: :model do
   describe "validations" do
     it "requires street_address, suburb, and postcode" do
-      address = Address.new
+      address = described_class.new
       expect(address).not_to be_valid
       expect(address.errors.attribute_names).to include(:street_address, :suburb, :postcode)
     end

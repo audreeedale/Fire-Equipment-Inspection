@@ -12,7 +12,7 @@ RSpec.describe Asset, type: :model do
     it "only returns active assets" do
       active_asset = create(:asset, active: true)
       create(:asset, active: false)
-      expect(Asset.active).to eq([ active_asset ])
+      expect(described_class.active).to eq([ active_asset ])
     end
   end
 

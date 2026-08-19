@@ -13,7 +13,7 @@ RSpec.describe AssetInspectionRecord, type: :model do
     it "excludes records with no defect" do
       flagged = create(:asset_inspection_record, defect_status: :non_critical)
       create(:asset_inspection_record, defect_status: :none)
-      expect(AssetInspectionRecord.with_defects).to eq([ flagged ])
+      expect(described_class.with_defects).to eq([ flagged ])
     end
   end
 end

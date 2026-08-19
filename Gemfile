@@ -65,6 +65,9 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
+  # RSpec-specific style and best-practice cops [https://github.com/rubocop/rubocop-rspec]
+  gem "rubocop-rspec", require: false
+
   # Language server for editor autocomplete, go-to-definition, and inline diagnostics [https://github.com/Shopify/ruby-lsp]
   gem "ruby-lsp", require: false
 end

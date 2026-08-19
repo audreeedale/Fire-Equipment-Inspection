@@ -10,7 +10,7 @@ RSpec.describe Defect, type: :model do
     it "excludes resolved defects" do
       open_defect = create(:defect, status: :logged)
       create(:defect, status: :resolved)
-      expect(Defect.open_defects).to eq([ open_defect ])
+      expect(described_class.open_defects).to eq([ open_defect ])
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.describe Defect, type: :model do
     it "orders by created_at descending" do
       older = create(:defect, created_at: 2.days.ago)
       newer = create(:defect, created_at: 1.day.ago)
-      expect(Defect.recent_first).to eq([ newer, older ])
+      expect(described_class.recent_first).to eq([ newer, older ])
     end
   end
 end

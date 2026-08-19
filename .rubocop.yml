@@ -1,6 +1,22 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  # Auto-enable cops added in new RuboCop/plugin releases instead of warning
+  # that they're unconfigured every time we upgrade.
+  NewCops: enable
+
+# Specs here naturally pair a setup step with 2-4 related assertions in one
+# example (see spec/models/schedule_spec.rb) rather than one-expectation-per-it.
+# Raise the defaults instead of forcing every spec into that shape.
+RSpec/MultipleExpectations:
+  Max: 5
+RSpec/ExampleLength:
+  Max: 15
+
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
