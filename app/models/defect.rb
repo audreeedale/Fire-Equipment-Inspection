@@ -11,4 +11,13 @@ class Defect < ApplicationRecord
 
   scope :open_defects, -> { where.not(status: :resolved) }
   scope :recent_first, -> { order(created_at: :desc) }
+
+  STATUS_TRANSITIONS = { "logged" => "quoted", "quoted" => "scheduled", "scheduled" => "resolved" }.freeze
+
+  def advance!
+    next_status = STATUS_TRANSITIONS[status]
+    return false unless next_status
+    update!(status: next_status, resolved_on: next_status == "resolved" ? Date.current : nil)
+    true
+  end
 end

@@ -19,6 +19,10 @@ class Schedule < ApplicationRecord
 
   before_validation :set_initial_next_due_on, on: :create
 
+  def self.due_soon_count
+    active.count { |schedule| schedule.status == :due_soon }
+  end
+
   def recompute_next_due!(from_date = last_completed_on || start_date)
     update!(next_due_on: from_date + FREQUENCY_INTERVALS.fetch(frequency))
   end

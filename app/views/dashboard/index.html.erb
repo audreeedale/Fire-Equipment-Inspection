@@ -3,12 +3,12 @@
 <div class="flex items-center justify-between mb-6">
   <div>
     <h1 class="text-2xl font-bold">Good day, <%= current_user.name.split.first %></h1>
-    <p class="text-muted">Here's the current inspection workload and compliance status.</p>
+    <p class="text-muted">Here's the current inspection workload.</p>
   </div>
   <%= link_to "+ Add customer", new_address_path, class: "bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark" %>
 </div>
 
-<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
   <div class="bg-panel border border-line rounded-xl p-4">
     <span class="text-xs text-muted">Inspections this month</span>
     <div class="text-3xl font-extrabold mt-2"><%= @inspections_this_month_count %></div>
@@ -20,10 +20,6 @@
   <div class="bg-panel border border-line rounded-xl p-4">
     <span class="text-xs text-muted">Open defects</span>
     <div class="text-3xl font-extrabold mt-2"><%= @open_defects_count %></div>
-  </div>
-  <div class="bg-panel border border-line rounded-xl p-4">
-    <span class="text-xs text-muted">Compliance rate</span>
-    <div class="text-3xl font-extrabold mt-2"><%= @compliance_rate %>%</div>
   </div>
 </div>
 

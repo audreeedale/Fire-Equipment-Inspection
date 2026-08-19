@@ -1,6 +1,4 @@
 class DefectsController < ApplicationController
-  STATUS_TRANSITIONS = { "logged" => "quoted", "quoted" => "scheduled", "scheduled" => "resolved" }.freeze
-
   def index
     @defects_by_status = Defect.includes(asset: :address).recent_first.group_by(&:status)
   end
@@ -37,12 +35,9 @@ class DefectsController < ApplicationController
     end
   end
 
-  # Need to update not RESTful probably separate this
   def advance
-    next_status = STATUS_TRANSITIONS.fetch(defect.status, nil)
-    if next_status
-      defect.update!(status: next_status, resolved_on: next_status == "resolved" ? Date.current : nil)
-      redirect_to defects_path, notice: "Defect moved to #{next_status.humanize}."
+    if defect.advance!
+      redirect_to defects_path, notice: "Defect moved to #{defect.status.humanize}."
     else
       redirect_to defects_path, alert: "This defect is already resolved."
     end

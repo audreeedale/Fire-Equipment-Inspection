@@ -19,10 +19,6 @@ Rails.application.routes.draw do
   get "inspections", to: "inspections#index"
   get "calendar", to: "calendar#index"
 
-  get "reports", to: "reports#index"
-  get "reports/compliance", to: "reports#compliance"
-  get "reports/defect_register", to: "reports#defect_register"
-
   get "settings", to: "settings#show"
 
   resources :defects do
