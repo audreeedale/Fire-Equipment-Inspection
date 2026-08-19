@@ -4,5 +4,9 @@
     "editor.formatOnSave": true
   },
   "rubyLsp.formatter": "rubocop",
-  "rubyLsp.linters": ["rubocop"]
+  "rubyLsp.linters": ["rubocop"],
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "mise",
+    "miseExecutablePath": "/opt/homebrew/bin/mise"
+  }
 }
