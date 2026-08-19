@@ -2,7 +2,7 @@
 
 A Ruby on Rails app for managing fire-safety equipment inspections across client sites (addresses). Tracks a masterlist of addresses, recurring inspection schedules (annual / 6-monthly / monthly), and a digital equipment sheet (extinguishers, hydrants, hose reels, exit/emergency lights, fire doors, smoke alarms) with photos and defect history per asset.
 
-This is an early draft: there is no authentication yet, and it's set up for local development only.
+This is an early draft, set up for local development only.
 
 ## Requirements
 
@@ -52,9 +52,9 @@ bundle exec rspec
 
 ## Not yet implemented
 
-- Authentication / user accounts (inspector name is currently free text)
+- Authorization / roles (every logged-in user can read and write everything)
 - Cloud photo storage (currently local disk via ActiveStorage)
 
 ## Logins
-admin@emberinspect.com
-password
+
+Dev login credentials are created by `db/seeds.rb` — run `bin/rails db:seed` and see that file for the account.

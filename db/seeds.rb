@@ -7,6 +7,7 @@ Schedule.destroy_all
 Building.destroy_all
 Address.destroy_all
 
+# Dev login: admin@emberinspect.com / password
 User.find_or_create_by!(email: "admin@emberinspect.com") do |user|
   user.name = "Alex Morgan"
   user.password = "password"
