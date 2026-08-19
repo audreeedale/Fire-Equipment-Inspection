@@ -11,13 +11,22 @@
     </div>
 
     <%= simple_form_for record, url: asset_inspection_record_path(record), method: :patch,
-          html: { class: "grid grid-cols-1 md:grid-cols-4 gap-3 items-start" } do |f| %>
-      <%= f.input :defect_status, collection: AssetInspectionRecord.defect_statuses.keys, label: false, wrapper_html: { class: "md:col-span-1" } %>
-      <%= f.input :defect_found, as: :text, label: false, placeholder: "Defect found", input_html: { rows: 1 }, wrapper_html: { class: "md:col-span-1" } %>
-      <%= f.input :action_required, as: :text, label: false, placeholder: "Action required", input_html: { rows: 1 }, wrapper_html: { class: "md:col-span-1" } %>
-      <div class="md:col-span-1 space-y-2">
-        <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false %>
-        <%= f.button :submit, "Save", class: "bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-brand-dark" %>
+          html: { class: "grid grid-cols-1 md:grid-cols-4 md:divide-x md:divide-line items-start" } do |f| %>
+      <%= f.input :defect_status, collection: AssetInspectionRecord.defect_statuses.keys, label: false,
+            wrapper_html: { class: "md:pr-4" },
+            input_html: { class: "border border-line rounded-lg px-2 py-1.5 text-sm w-full" } %>
+      <%= f.input :defect_found, as: :text, label: false, placeholder: "Defect found",
+            wrapper_html: { class: "md:px-4" },
+            input_html: { rows: 1, class: "border border-line rounded-lg px-2 py-1.5 text-sm w-full" } %>
+      <%= f.input :action_required, as: :text, label: false, placeholder: "Action required",
+            wrapper_html: { class: "md:px-4" },
+            input_html: { rows: 1, class: "border border-line rounded-lg px-2 py-1.5 text-sm w-full" } %>
+      <div class="md:pl-4">
+        <label class="inline-block cursor-pointer bg-panel-soft border border-line text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-line">
+          Upload
+          <%= f.file_field :photos, multiple: true, class: "hidden",
+                data: { controller: "auto-submit", action: "change->auto-submit#submit" } %>
+        </label>
       </div>
     <% end %>
 

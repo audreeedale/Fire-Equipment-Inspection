@@ -1,27 +1,32 @@
 <% content_for :title, "Equipment Sheet — #{@visit.visit_date.to_fs(:long)}" %>
 
-<div class="flex items-start justify-between mb-6">
-  <div>
-    <h1 class="text-2xl font-bold">Equipment Sheet</h1>
-    <p class="text-muted"><%= @address.display_name %> · <%= @visit.visit_date.to_fs(:long) %></p>
+<div data-controller="bulk-save">
+  <div class="flex items-start justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Equipment Sheet</h1>
+      <p class="text-muted"><%= @address.display_name %> · <%= @visit.visit_date.to_fs(:long) %></p>
+    </div>
+    <div class="flex items-center gap-4">
+      <button type="button" data-action="bulk-save#saveAll" class="bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark">Save</button>
+      <%= link_to "Back to Visit", address_inspection_visit_path(@address, @visit), class: "text-sm text-muted hover:underline" %>
+    </div>
   </div>
-  <%= link_to "Back to Visit", address_inspection_visit_path(@address, @visit), class: "text-sm text-muted hover:underline" %>
-</div>
 
-<% if @records_by_category.empty? %>
-  <p class="text-muted">No assets recorded for this address yet. <%= link_to "Add an asset", new_address_asset_path(@address), class: "text-brand hover:underline" %> first.</p>
-<% else %>
-  <% @records_by_category.each do |category, records| %>
-    <section class="mb-8">
-      <h2 class="text-lg font-semibold mb-3"><%= category.humanize %></h2>
-      <div class="bg-panel border border-line rounded-xl divide-y divide-line">
-        <% records.sort_by { |r| r.asset.asset_no }.each do |record| %>
-          <%= render "asset_inspection_records/record_row", record: record %>
-        <% end %>
-      </div>
-    </section>
+  <% if @records_by_category.empty? %>
+    <p class="text-muted">No assets recorded for this address yet. <%= link_to "Add an asset", new_address_asset_path(@address), class: "text-brand hover:underline" %> first.</p>
+  <% else %>
+    <% @records_by_category.each do |category, records| %>
+      <section class="mb-8">
+        <h2 class="text-lg font-semibold mb-3"><%= category.humanize %></h2>
+        <div class="bg-panel border border-line rounded-xl divide-y divide-line">
+          <% records.sort_by { |r| r.asset.asset_no }.each do |record| %>
+            <%= render "asset_inspection_records/record_row", record: record %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
 <% if @visit.status == "in_progress" %>
   <section class="bg-panel border border-line rounded-xl p-5 mt-8">

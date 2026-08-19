@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Fire Inspection" %></title>
+    <title><%= content_for(:title) || "Fire Equipment Inspection" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Fire Inspection">
+    <meta name="application-name" content="Fire Equipment Inspection">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -33,8 +33,7 @@
       <div class="min-h-screen md:grid md:grid-cols-[245px_1fr]" data-controller="sidebar">
         <aside data-sidebar-target="panel" class="fixed inset-y-0 left-0 z-40 w-[245px] -translate-x-full bg-nav text-white p-4 flex flex-col transition-transform md:static md:translate-x-0">
           <div class="flex items-center gap-2 px-2 pb-5 font-bold">
-            <span class="w-9 h-9 rounded-xl bg-brand grid place-items-center">🔥</span>
-            Fire Inspection
+            Fire Equipment Inspection
           </div>
 
           <nav class="space-y-1">
