@@ -4,13 +4,10 @@ class DefectsController < ApplicationController
   end
 
   def new
-    @defect = Defect.new(asset_id: params[:asset_id])
-
-    if params[:asset_inspection_record_id].present?
-      record = AssetInspectionRecord.find(params[:asset_inspection_record_id])
-      @defect.asset_inspection_record = record
-      @defect.asset_id = record.asset_id
-      @defect.description = record.defect_found
+    @defect = if params[:asset_inspection_record_id].present?
+      AssetInspectionRecord.find(params[:asset_inspection_record_id]).build_defect
+    else
+      Defect.new(asset_id: params[:asset_id])
     end
   end
 

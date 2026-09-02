@@ -10,7 +10,7 @@ class AddressesController < ApplicationController
     @recent_visits = address.inspection_visits.recent_first.limit(10)
     @assets = address.assets.order(:asset_no)
     @assets_by_category = @assets.active.group_by(&:category)
-    @recent_defects = Defect.joins(:asset).where(assets: { address_id: address.id }).recent_first.limit(5)
+    @recent_defects = address.defects.recent_first.limit(5)
   end
 
   def new

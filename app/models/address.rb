@@ -3,6 +3,7 @@ class Address < ApplicationRecord
   has_many :schedules, dependent: :destroy
   has_many :inspection_visits, dependent: :destroy
   has_many :assets, dependent: :destroy
+  has_many :defects, through: :assets
 
   validates :street_address, :suburb, :state, :postcode, presence: true
   validates :postcode, format: { with: /\A\d{4}\z/, message: "must be 4 digits (AU postcode)" }

@@ -12,4 +12,8 @@ class AssetInspectionRecord < ApplicationRecord
   validates :defect_status, presence: true
 
   scope :with_defects, -> { where.not(defect_status: :none) }
+
+  def build_defect
+    asset.defects.new(asset_inspection_record: self, description: defect_found)
+  end
 end
